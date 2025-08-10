@@ -13,9 +13,10 @@ import Pagination from '@/components/Pagination/Pagination';
 
 type Props = {
   initialNotes: FetchNotesResponse;
+  initialTag: string | null;
 };
 
-export default function NotesClient({ initialNotes }: Props) {
+export default function NotesClient({ initialNotes, initialTag }: Props) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -33,7 +34,13 @@ export default function NotesClient({ initialNotes }: Props) {
 
   const { data, isLoading, isSuccess, error } = useQuery({
     queryKey: ['notes', page, debouncedSearch],
-    queryFn: () => fetchNotes({ page, perPage: 12, search: debouncedSearch }),
+    queryFn: () =>
+      fetchNotes({
+        page,
+        perPage: 12,
+        search: debouncedSearch,
+        ...(initialTag && initialTag !== 'All' ? { tag: initialTag } : {}),
+      }),
     placeholderData: keepPreviousData,
     initialData:
       page === 1 && debouncedSearch === '' ? initialNotes : undefined,
