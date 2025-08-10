@@ -2,11 +2,12 @@ import { fetchNotes } from '@/lib/api';
 import NotesClient from './Notes.client';
 
 interface NotesPageProps {
-  params: { slug?: string[] };
+  params: Promise<{ slug?: string[] }>;
 }
 
 export default async function NotesPage({ params }: NotesPageProps) {
-  const tag = params.slug?.[0] || null;
+  const resolvedParams = await params;
+  const tag = resolvedParams.slug?.[0] || null;
   const initialNotes = await fetchNotes({
     page: 1,
     perPage: 12,
