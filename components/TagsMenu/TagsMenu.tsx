@@ -23,10 +23,7 @@ const TagsMenu = () => {
         <ul className={css.menuList}>
           {categories.map(cat => (
             <li key={cat} className={css.menuItem}>
-              <Link
-                href={cat === 'All' ? '/notes/filter' : `/notes/filter/${cat}`}
-                className={css.menuLink}
-              >
+              <Link href={`/notes/filter/${cat}`} className={css.menuLink}>
                 {cat}
               </Link>
             </li>

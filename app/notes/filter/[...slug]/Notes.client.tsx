@@ -72,7 +72,7 @@ export default function NotesClient({ initialNotes, initialTag }: Props) {
       {isSuccess && data?.data?.length > 0 ? (
         <NoteList notes={data.data} />
       ) : (
-        <p>No notes found</p>
+        <p>You don`t have any notes here</p>
       )}
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
