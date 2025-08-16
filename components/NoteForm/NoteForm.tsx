@@ -6,7 +6,7 @@ import { createNote } from '../../lib/api';
 import type { NewNote } from '../../types/note';
 
 interface NoteFormProps {
-  onSuccess: () => void;
+  onSuccess?: () => void;
   onCancel: () => void;
 }
 
@@ -36,7 +36,7 @@ export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
     mutationFn: (noteData: NewNote) => createNote(noteData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
-      onSuccess();
+      onSuccess?.();
     },
   });
 

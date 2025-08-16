@@ -26,14 +26,14 @@ export default function NotesClient({ initialNotes, initialTag }: Props) {
     setDebouncedSearch(search);
   }, 500);
 
-  const handleSearchCange = (search: string) => {
+  const handleSearchChange = (search: string) => {
     setSearch(search);
     setPage(1);
     handleSearch(search);
   };
 
   const { data, isLoading, isSuccess, error } = useQuery({
-    queryKey: ['notes', page, debouncedSearch],
+    queryKey: ['notes', page, debouncedSearch, initialTag],
     queryFn: () =>
       fetchNotes({
         page,
@@ -56,7 +56,7 @@ export default function NotesClient({ initialNotes, initialTag }: Props) {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox value={search} onChange={handleSearchCange} />
+        <SearchBox value={search} onChange={handleSearchChange} />
         {data && data.total_pages > 1 && (
           <Pagination
             currentPage={page}
@@ -76,7 +76,7 @@ export default function NotesClient({ initialNotes, initialTag }: Props) {
       )}
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          <NoteForm onSuccess={handleCloseModal} onCancel={handleCloseModal} />
+          <NoteForm onCancel={handleCloseModal} />
         </Modal>
       )}
     </div>

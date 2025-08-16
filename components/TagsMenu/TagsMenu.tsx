@@ -23,7 +23,7 @@ const TagsMenu = () => {
         <ul className={css.menuList}>
           {categories.map(cat => (
             <li key={cat} className={css.menuItem}>
-              <Link href={`/notes/filter/${cat}`} className={css.menuLink}>
+              <Link href={`/notes/filter/${cat}`} className={css.menuLink} onClick={() => setOpen(false)}>
                 {cat}
               </Link>
             </li>
