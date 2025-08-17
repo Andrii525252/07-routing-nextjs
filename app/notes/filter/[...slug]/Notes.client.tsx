@@ -13,10 +13,10 @@ import Pagination from '@/components/Pagination/Pagination';
 
 type Props = {
   initialNotes: FetchNotesResponse;
-  initialTag: string | null;
+  tag?: string;
 };
 
-export default function NotesClient({ initialNotes, initialTag }: Props) {
+export default function NotesClient({ initialNotes, tag }: Props) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -32,14 +32,14 @@ export default function NotesClient({ initialNotes, initialTag }: Props) {
     handleSearch(search);
   };
 
-  const { data, isLoading, isSuccess, error } = useQuery({
-    queryKey: ['notes', page, debouncedSearch, initialTag],
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['notes', page, debouncedSearch, tag],
     queryFn: () =>
       fetchNotes({
         page,
         perPage: 12,
         search: debouncedSearch,
-        ...(initialTag && initialTag !== 'All' ? { tag: initialTag } : {}),
+        ...(tag && tag !== 'All' ? { tag } : {}),
       }),
     placeholderData: keepPreviousData,
     initialData:
@@ -69,7 +69,7 @@ export default function NotesClient({ initialNotes, initialTag }: Props) {
         </button>
       </header>
 
-      {isSuccess && data?.data?.length > 0 ? (
+      {data?.data?.length > 0 ? (
         <NoteList notes={data.data} />
       ) : (
         <p>You don`t have any notes here</p>
