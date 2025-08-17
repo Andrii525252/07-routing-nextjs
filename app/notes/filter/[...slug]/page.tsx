@@ -7,12 +7,12 @@ interface NotesPageProps {
 
 export default async function NotesPage({ params }: NotesPageProps) {
   const resolvedParams = await params;
-  const tag = resolvedParams.slug?.[0] || null;
+  const tag = resolvedParams.slug?.[0] || undefined;
   const initialNotes = await fetchNotes({
     page: 1,
     perPage: 12,
     ...(tag && tag !== 'All' ? { tag } : {}),
   });
 
-  return <NotesClient initialNotes={initialNotes} initialTag={tag} />;
+  return <NotesClient initialNotes={initialNotes} tag={tag} />;
 }
